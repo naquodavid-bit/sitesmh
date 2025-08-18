@@ -1,218 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>hiiiii</title>
-    <!-- Tailwind CSS CDN for styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome for the cryptocurrency icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body {
-            /* Using a dark background theme */
-            font-family: 'Inter', sans-serif;
-            position: relative; /* Needed for video background positioning */
-            color: #fff;
-            overflow: hidden; /* Hide scrollbars if the video is larger than the viewport */
-        }
-
-        /* Full-screen video background styling for the YouTube iframe */
-        .video-background-iframe {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1; /* Puts the video behind all other content */
-            pointer-events: none; /* Prevents the iframe from capturing mouse events */
-            filter: blur(2px); /* Adds a less strong blur effect to the background */
-        }
-
-        /* Styling for the splash screen that appears on top */
-        #splash-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 20; /* Ensures it's on top of everything else */
-            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black for a gray effect */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: opacity 0.5s ease-in-out; /* Add a smooth transition for fading */
-        }
-
-        /* Custom animation for the 'Copied!' notification */
-        @keyframes fadein {
-            from { bottom: 0; opacity: 0; }
-            to { bottom: 30px; opacity: 1; }
-        }
-
-        @keyframes fadeout {
-            from { bottom: 30px; opacity: 1; }
-            to { bottom: 0; opacity: 0; }
-        }
-
-        #notification {
-            visibility: hidden; /* Hidden by default */
-            min-width: 250px;
-            margin-left: -125px;
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            border-radius: 8px; /* Slightly more rounded */
-            padding: 16px;
-            position: fixed;
-            z-index: 10;
-            left: 50%;
-            bottom: 30px;
-            font-size: 17px;
-        }
-
-        #notification.show {
-            visibility: visible;
-            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-            animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>hiiiii</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      position: relative;
+      color: #fff;
+      overflow: hidden;
+    }
+    .video-background-iframe {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+      filter: blur(2px);
+    }
+    #splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 20;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: opacity 0.5s ease-in-out;
+    }
+    @keyframes fadein {
+      from { bottom: 0; opacity: 0; }
+      to { bottom: 30px; opacity: 1; }
+    }
+    @keyframes fadeout {
+      from { bottom: 30px; opacity: 1; }
+      to { bottom: 0; opacity: 0; }
+    }
+    #notification {
+      visibility: hidden;
+      min-width: 250px;
+      margin-left: -125px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 8px;
+      padding: 16px;
+      position: fixed;
+      z-index: 10;
+      left: 50%;
+      bottom: 30px;
+      font-size: 17px;
+    }
+    #notification.show {
+      visibility: visible;
+      animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+    /* Play Button Styling */
+    #playAudioBtn {
+      display: none;
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      z-index: 30;
+    }
+  </style>
 </head>
 <body class="flex flex-col items-center justify-end min-h-screen p-4">
+  <!-- Splash Screen -->
+  <div id="splash-screen" onclick="hideSplashScreen()">
+    <p class="text-white text-sm font-bold">ye9r</p>
+    <p class="text-white text-xs font-light mt-1">click to enter</p>
+  </div>
 
-    <!-- The splash screen that disappears on click -->
-    <div id="splash-screen" onclick="hideSplashScreen()">
-        <p class="text-white text-sm font-bold">ye9r</p>
-        <p class="text-white text-xs font-light mt-1">click to enter</p>
+  <!-- YouTube Video Background -->
+  <iframe
+    id="youtube-background"
+    class="video-background-iframe"
+    src="https://www.youtube.com/embed/Ig7yeUnBKqo?autoplay=1&mute=1&loop=1&playlist=Ig7yeUnBKqo&controls=0&modestbranding=1"
+    frameborder="0"
+    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+  ></iframe>
+
+  <!-- Content -->
+  <div class="flex flex-col items-center justify-center pb-16">
+    <div class="bg-black/40 backdrop-blur-sm p-4 rounded-lg mb-8 text-center text-sm font-light">
+      <p>discord id: <span class="font-bold">1398265011201114233</span></p>
+      <p>discord user: <span class="font-bold">ye9r_</span></p>
     </div>
 
-    <!-- Full-screen YouTube video background -->
-    <iframe
-        id="youtube-background"
-        class="video-background-iframe"
-        src="https://www.youtube.com/embed/Ig7yeUnBKqo?autoplay=1&mute=1&loop=1&playlist=Ig7yeUnBKqo&controls=0&modestbranding=1"
-        frameborder="0"
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-    ></iframe>
-
-    <!-- Main content container -->
-    <div class="flex flex-col items-center justify-center pb-16">
-        
-        <!-- Discord Information Box -->
-        <div class="bg-black/40 backdrop-blur-sm p-4 rounded-lg mb-8 text-center text-sm font-light">
-            <p>discord id: <span class="font-bold">1398265011201114233</span></p>
-            <p>discord user: <span class="font-bold">ye9r_</span></p>
+    <h1 class="text-white text-lg font-light mb-1">my crypto addresses</h1>
+    <p class="text-white text-sm font-thin mb-4">pls money</p>
+    <div class="flex flex-col items-center space-y-4 md:space-y-0 md:flex-row md:space-x-8">
+      <div class="relative flex flex-col items-center group cursor-pointer transition-all duration-300" onclick="copyAddress('bc1q6wyvryhwv9xznuh05fwr4n6p400hjf0qemzwf8')">
+        <div class="relative w-16 h-16 md:w-20 md:h-20 rounded-lg flex items-center justify-center bg-black transition-all duration-300">
+          <i class="fab fa-bitcoin text-gray-400 text-2xl md:text-3xl"></i>
         </div>
-        
-        <!-- New text element -->
-        <h1 class="text-white text-lg font-light mb-1">my crypto addresses</h1>
-        <p class="text-white text-sm font-thin mb-4">pls money</p>
-
-        <!-- Main container for the icons -->
-        <div class="flex flex-col items-center space-y-4 md:space-y-0 md:flex-row md:space-x-8">
-
-            <!-- Bitcoin Icon -->
-            <div class="relative flex flex-col items-center group cursor-pointer transition-all duration-300" onclick="copyAddress('bc1q6wyvryhwv9xznuh05fwr4n6p400hjf0qemzwf8')">
-                <div class="relative w-16 h-16 md:w-20 md:h-20 rounded-lg flex items-center justify-center bg-black transition-all duration-300">
-                    <i class="fab fa-bitcoin text-gray-400 text-2xl md:text-3xl"></i>
-                </div>
-                <!-- Tooltip for the address -->
-                <div class="absolute z-10 bottom-full mb-2 p-2 px-4 rounded-lg bg-gray-700 text-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 whitespace-nowrap">
-                    bc1q6wyvryhwv9xznuh05fwr4n6p400hjf0qemzwf8
-                </div>
-            </div>
-
-            <!-- Ethereum Icon -->
-            <div class="relative flex flex-col items-center group cursor-pointer transition-all duration-300" onclick="copyAddress('0x0E23E96aC15138037d09F73e56A401393AF5E5C9')">
-                <div class="relative w-16 h-16 md:w-20 md:h-20 rounded-lg flex items-center justify-center bg-black transition-all duration-300">
-                    <i class="fab fa-ethereum text-gray-400 text-2xl md:text-3xl"></i>
-                </div>
-                <!-- Tooltip for the address -->
-                <div class="absolute z-10 bottom-full mb-2 p-2 px-4 rounded-lg bg-gray-700 text-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 whitespace-nowrap">
-                    0x0E23E96aC15138037d09F73e56A401393AF5E5C9
-                </div>
-            </div>
-
-            <!-- Litecoin Icon -->
-            <div class="relative flex flex-col items-center group cursor-pointer transition-all duration-300" onclick="copyAddress('LbBorQBEKaZkd2uMFx2vCkZdP6jtxJZKSc')">
-                <div class="relative w-16 h-16 md:w-20 md:h-20 rounded-lg flex items-center justify-center bg-black transition-all duration-300">
-                    <!-- Replaced Font Awesome icon with an image -->
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8VPK6MPoSREbyHCbK9en_U5oPExHsqqLqow&s" alt="Litecoin logo" class="w-1/2 h-1/2 object-contain filter grayscale" />
-                </div>
-                <!-- Tooltip for the address -->
-                <div class="absolute z-10 bottom-full mb-2 p-2 px-4 rounded-lg bg-gray-700 text-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 whitespace-nowrap">
-                    LbBorQBEKaZkd2uMFx2vCkZdP6jtxJZKSc
-                </div>
-            </div>
+        <div class="absolute z-10 bottom-full mb-2 p-2 px-4 rounded-lg bg-gray-700 text-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 whitespace-nowrap">
+          bc1q6wyvryhwv9xznuh05fwr4n6p400hjf0qemzwf8
         </div>
+      </div>
+      <div class="relative flex flex-col items-center group cursor-pointer transition-all duration-300" onclick="copyAddress('0x0E23E96aC15138037d09F73e56A401393AF5E5C9')">
+        <div class="relative w-16 h-16 md:w-20 md:h-20 rounded-lg flex items-center justify-center bg-black transition-all duration-300">
+          <i class="fab fa-ethereum text-gray-400 text-2xl md:text-3xl"></i>
+        </div>
+        <div class="absolute z-10 bottom-full mb-2 p-2 px-4 rounded-lg bg-gray-700 text-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 whitespace-nowrap">
+          0x0E23E96aC15138037d09F73e56A401393AF5E5C9
+        </div>
+      </div>
+      <div class="relative flex flex-col items-center group cursor-pointer transition-all duration-300" onclick="copyAddress('LbBorQBEKaZkd2uMFx2vCkZdP6jtxJZKSc')">
+        <div class="relative w-16 h-16 md:w-20 md:h-20 rounded-lg flex items-center justify-center bg-black transition-all duration-300">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8VPK6MPoSREbyHCbK9en_U5oPExHsqqLqow&s" alt="Litecoin logo" class="w-1/2 h-1/2 object-contain filter grayscale" />
+        </div>
+        <div class="absolute z-10 bottom-full mb-2 p-2 px-4 rounded-lg bg-gray-700 text-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 whitespace-nowrap">
+          LbBorQBEKaZkd2uMFx2vCkZdP6jtxJZKSc
+        </div>
+      </div>
     </div>
+  </div>
 
-    <!-- The 'Copied!' notification message -->
-    <div id="notification">Copied to clipboard!</div>
+  <!-- Notification -->
+  <div id="notification">Copied to clipboard!</div>
 
-    <script>
-        /**
-         * Hides the splash screen when clicked with a fade-out effect.
-         */
-        function hideSplashScreen() {
-            const splashScreen = document.getElementById('splash-screen');
-            // Start the fade-out effect by setting opacity to 0
-            splashScreen.style.opacity = '0';
-            splashScreen.style.pointerEvents = 'none'; // Make it unclickable immediately
+  <!-- Background Audio Setup -->
+  <audio id="bg-audio" loop preload="metadata">
+    <source src="audio/tyler_answer.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+  <button id="playAudioBtn">▶ Play Music</button>
 
-            // After the transition finishes, set the display to 'none'
-            setTimeout(() => {
-                splashScreen.style.display = 'none';
-            }, 500); // The timeout duration should match the CSS transition time
-        }
+  <script>
+    function hideSplashScreen() {
+      const splash = document.getElementById('splash-screen');
+      splash.style.opacity = '0';
+      splash.style.pointerEvents = 'none';
+      setTimeout(() => splash.style.display = 'none', 500);
+    }
 
-        /**
-         * Copies the provided text to the clipboard and shows a notification.
-         * @param {string} textToCopy The text to be copied.
-         */
-        function copyAddress(textToCopy) {
-            // Create a temporary textarea element to hold the text.
-            const tempTextArea = document.createElement('textarea');
-            tempTextArea.value = textToCopy;
-            document.body.appendChild(tempTextArea);
+    function copyAddress(text) {
+      const temp = document.createElement('textarea');
+      temp.value = text;
+      document.body.appendChild(temp);
+      temp.select();
+      temp.setSelectionRange(0, 99999);
+      try {
+        document.execCommand('copy');
+        showNotification();
+      } catch {
+        alert('Copy failed: ' + text);
+      }
+      document.body.removeChild(temp);
+    }
 
-            // Select the text in the textarea.
-            tempTextArea.select();
-            tempTextArea.setSelectionRange(0, 99999); // For mobile devices
+    function showNotification() {
+      const n = document.getElementById('notification');
+      n.className = 'show';
+      setTimeout(() => n.className = n.className.replace('show', ''), 3000);
+    }
 
-            // Execute the copy command.
-            // document.execCommand('copy') is used here because navigator.clipboard.writeText
-            // might be restricted in some iframe environments.
-            try {
-                document.execCommand('copy');
-                showNotification();
-            } catch (err) {
-                console.error('Failed to copy text:', err);
-                // Fallback for cases where execCommand fails
-                alert('Could not copy address. Please copy it manually: ' + textToCopy);
-            } finally {
-                // Remove the temporary textarea from the body.
-                document.body.removeChild(tempTextArea);
-            }
-        }
+    // Audio playback logic
+    const audio = document.getElementById('bg-audio');
+    const btn = document.getElementById('playAudioBtn');
 
-        /**
-         * Displays the "Copied!" notification for a short period.
-         */
-        function showNotification() {
-            const notification = document.getElementById('notification');
-            // Add the 'show' class to trigger the animation.
-            notification.className = 'show';
-            // After 3 seconds, remove the 'show' class to hide the notification.
-            setTimeout(function() {
-                notification.className = notification.className.replace('show', '');
-            }, 3000);
-        }
-    </script>
+    window.addEventListener('load', () => {
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => btn.style.display = 'block');
+      }
+    });
+
+    btn.addEventListener('click', () => {
+      audio.play();
+      btn.style.display = 'none';
+    });
+  </script>
 </body>
 </html>
-
-
